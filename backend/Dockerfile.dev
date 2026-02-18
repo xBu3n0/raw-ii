@@ -1,4 +1,4 @@
-FROM node:25-alpine AS DEVELOPMENT
+FROM node:25-alpine AS dev
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY . ./
 
 EXPOSE 80
 
