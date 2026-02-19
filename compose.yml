@@ -1,0 +1,73 @@
+services:
+  nginx:
+    container_name: reverse-proxy
+    image: nginx:1.29-alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://web:80/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - front
+      - api
+
+  front:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - ./frontend/.env
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://front:80/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - api
+
+  api:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://backend:80/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rabbitmq:
+    container_name: rabbitmq-mensageria
+    image: rabbitmq:3
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://rabbitmq:15672/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  database:
+    container_name: postgres
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-app_db}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
