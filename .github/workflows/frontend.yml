@@ -54,7 +54,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Check formatting (Prettier)
-        run: npm run prettier
+        run: npm run format:check
 
   test:
     runs-on: ubuntu-24
