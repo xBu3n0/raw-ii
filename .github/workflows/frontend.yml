@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   setup:
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
         working-directory: frontend
 
   lint:
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     needs: setup
     defaults:
       run:
@@ -57,7 +57,7 @@ jobs:
         run: npm run format:check
 
   test:
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     needs: setup
     defaults:
       run:

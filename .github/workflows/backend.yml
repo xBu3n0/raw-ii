@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
@@ -40,7 +40,7 @@ jobs:
 
   lint:
     needs: build
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
@@ -60,7 +60,7 @@ jobs:
 
   test:
     needs: build
-    runs-on: ubuntu-24
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
