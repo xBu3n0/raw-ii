@@ -55,6 +55,8 @@ jobs:
 
       - name: Check formatting (Prettier)
         run: npm run format:check
+      - name: Check linting (ESLint)
+        run: npm run lint
 
   test:
     runs-on: ubuntu-latest

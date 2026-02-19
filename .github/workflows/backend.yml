@@ -59,6 +59,8 @@ jobs:
         run: npm ci
       - name: Check formatting (Prettier)
         run: npm run format:check
+      - name: Check linting (ESLint)
+        run: npm run lint
 
   test:
     needs: build
@@ -82,4 +84,4 @@ jobs:
       - name: Run tests
         run: npm test
       - name: Run coverage
-        run: npm run test:coverage
+        run: npm run test:cov
