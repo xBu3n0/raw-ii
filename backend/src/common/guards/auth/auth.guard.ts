@@ -17,15 +17,18 @@ export class AuthGuard implements CanActivate {
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
+        const request = context.switchToHttp().getRequest<Request>();
+
         const isPublic = this.reflector.getAllAndOverride<boolean>(
             IS_PUBLIC_KEY,
             [context.getHandler(), context.getClass()],
         );
-        if (isPublic) {
+
+        // Allow access if the route is marked as public or if it's the Prometheus metrics endpoint
+        if (isPublic || request.path === "/api/v1/metrics") {
             return true;
         }
 
-        const request = context.switchToHttp().getRequest<Request>();
         const token = this.authJwtService.extractToken(
             request.headers.authorization,
         );

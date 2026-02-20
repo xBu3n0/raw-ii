@@ -5,20 +5,28 @@ import {
     Injectable,
     NestInterceptor,
 } from "@nestjs/common";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { map, Observable } from "rxjs";
 import ApiResponse from "src/common/dtos/responses/api.response";
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
-    intercept(
+    intercept<T>(
         context: ExecutionContext,
-        next: CallHandler,
-    ): Observable<ApiResponse> {
+        next: CallHandler<T>,
+    ): Observable<ApiResponse<T>> | Observable<T> {
         const response = context.switchToHttp().getResponse<Response>();
 
+        // Skip transformation for Prometheus metrics endpoint
+        if (
+            context.switchToHttp().getRequest<Request>().path ===
+            "/api/v1/metrics"
+        ) {
+            return next.handle();
+        }
+
         return next.handle().pipe(
-            map((data: object) => {
+            map((data: T) => {
                 const statusCode = response.statusCode;
                 const statusName = HttpStatus[response.statusCode];
 

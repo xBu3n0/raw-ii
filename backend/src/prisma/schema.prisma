@@ -17,7 +17,7 @@ datasource db {
 
 model AuthUser {
   id       Int    @id @default(autoincrement())
-  name     String
+  username String
   email    String @unique
   password String
 
@@ -26,9 +26,9 @@ model AuthUser {
 }
 
 model User {
-  id    Int    @id
-  name  String
-  email String @unique
+  id       Int    @id
+  username String
+  email    String @unique
 
   @@map("users")
   @@schema("public")

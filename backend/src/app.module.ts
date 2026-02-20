@@ -1,13 +1,18 @@
 import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
 import { PrometheusModule } from "@willsoto/nestjs-prometheus";
+import { AuthModule } from "./services/auth/auth.module";
+import { AuthJwtModule } from "./common/jwt/auth-jwt.module";
 
 @Module({
     imports: [
-        PrometheusModule.register(),
+        PrometheusModule.register({
+            defaultMetrics: { enabled: true },
+            path: "/metrics",
+        }),
+        AuthModule,
+        AuthJwtModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [],
+    providers: [],
 })
-export class AppModule { }
+export class AppModule {}

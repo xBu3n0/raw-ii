@@ -30,7 +30,7 @@ export class HttpExceptionsFilter implements ExceptionFilter {
             error: exception.message,
             errors: exception.cause ?? {},
             statusCode: statusCode,
-        } as ApiResponse;
+        } as ApiResponse<null>;
 
         httpAdapter.reply(ctx.getResponse(), responseBody, statusCode);
     }

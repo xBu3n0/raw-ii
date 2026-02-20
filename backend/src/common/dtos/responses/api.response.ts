@@ -1,6 +1,6 @@
-export default interface ApiResponse {
+export default interface ApiResponse<T> {
     status: string;
-    data: any;
+    data: T;
     error: string | null;
     errors: Record<string, string[]>;
     statusCode: number;
