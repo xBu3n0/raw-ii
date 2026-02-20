@@ -1,6 +1,9 @@
-export class InvalidDomainException extends Error {
+import { BadGatewayException, HttpException } from "@nestjs/common";
+
+export class InvalidDomainException extends HttpException {
     constructor(message: string) {
-        super(message);
+        super(message, 400);
+
         this.name = "InvalidDomainException";
     }
 }

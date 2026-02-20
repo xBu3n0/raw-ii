@@ -1,11 +1,13 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
 
 export class Email {
-    @IsNotEmpty()
-    @IsEmail()
     readonly value: string;
 
-    constructor(password: string) {
-        this.value = password;
+    constructor(email: string) {
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            throw new InvalidDomainException("Invalid email format");
+        }
+
+        this.value = email;
     }
 }
