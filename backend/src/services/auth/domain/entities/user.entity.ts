@@ -1,8 +1,8 @@
 import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
-import { Email } from "src/common/primitives/user/email.primitive";
+import { Email } from "@/common/primitives/user/email.primitive";
 import { Username } from "@/common/primitives/user/username.primitive";
 import { Password } from "@/common/primitives/user/password.primitive";
-import { UserId } from "src/common/primitives/user/user-id.primitive";
+import { UserId } from "@/common/primitives/user/user-id.primitive";
 
 export type PlainUser = {
     id: number | undefined;

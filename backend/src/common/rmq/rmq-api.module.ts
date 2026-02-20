@@ -5,7 +5,7 @@ import {
     ClientsModule,
     Transport,
 } from "@nestjs/microservices";
-import { RmqConfig } from "../consts/rmq";
+import { RmqConfig } from "@/common/consts/rmq";
 
 @Module({
     imports: [

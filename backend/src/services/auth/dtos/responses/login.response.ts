@@ -1,4 +1,4 @@
-import { UserDto } from "src/common/dtos/user.dto";
+import { UserDto } from "@/common/dtos/user.dto";
 
 export class Tokens {
     accessToken: string;

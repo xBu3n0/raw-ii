@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { RmqApiService } from "src/common/rmq/rmq-api.service";
-import { RmqEvent } from "src/common/consts/rmq";
-import { UserDto } from "src/common/dtos/user.dto";
+import { RmqApiService } from "@/common/rmq/rmq-api.service";
+import { RmqEvent } from "@/common/consts/rmq";
+import { UserDto } from "@/common/dtos/user.dto";
 
 @Injectable()
 export class UserCreated {

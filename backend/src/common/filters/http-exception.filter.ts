@@ -6,7 +6,7 @@ import {
     HttpStatus,
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import ApiResponse from "../dtos/responses/api.response";
+import ApiResponse from "@/common/dtos/responses/api.response";
 
 @Catch(HttpException)
 export class HttpExceptionsFilter implements ExceptionFilter {

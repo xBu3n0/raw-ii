@@ -14,9 +14,9 @@ import {
     Req,
 } from "@nestjs/common";
 import type { Request } from "express";
-import { UserDto } from "src/common/dtos/user.dto";
-import { Public } from "src/common/guards/auth/public.decorator";
-import { AuthService } from "../../application/services/auth.service";
+import { UserDto } from "@/common/dtos/user.dto";
+import { Public } from "@/common/guards/auth/public.decorator";
+import { AuthService } from "@auth/application/services/auth.service";
 
 @Controller("auth")
 export class AuthController {

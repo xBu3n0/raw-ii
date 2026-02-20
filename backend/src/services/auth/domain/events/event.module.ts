@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { RmqApiModule } from "src/common/rmq/rmq-api.module";
+import { RmqApiModule } from "@/common/rmq/rmq-api.module";
 import { UserCreated } from "./user-created.event";
 
 @Module({

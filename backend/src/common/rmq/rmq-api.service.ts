@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { RmqEvent } from "../consts/rmq";
+import { RmqEvent } from "@/common/consts/rmq";
 
 @Injectable()
 export class RmqApiService {

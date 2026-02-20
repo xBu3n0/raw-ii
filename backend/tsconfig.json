@@ -24,6 +24,9 @@
       "@payment/*": [
         "src/services/payment/*"
       ],
+      "@generated/*": [
+        "generated/*"
+      ],
     },
     "incremental": true,
     "skipLibCheck": true,

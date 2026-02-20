@@ -1,4 +1,4 @@
-import type { AuthUser } from "generated/prisma/client";
+import type { AuthUser } from "@generated/prisma/client";
 
 export class UserDto {
     id: number;

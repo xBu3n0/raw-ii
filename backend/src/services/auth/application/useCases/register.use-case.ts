@@ -4,7 +4,7 @@ import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
 import { UserEntity } from "@auth/domain/entities/user.entity";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { UserCreated } from "@auth/domain/events/user-created.event";
-import { UserDto } from "src/common/dtos/user.dto";
+import { UserDto } from "@/common/dtos/user.dto";
 import { hash } from "argon2";
 
 @Injectable()
