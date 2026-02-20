@@ -4,6 +4,7 @@ import { HttpExceptionsFilter } from "./common/filters/http-exception.filter";
 import { ResponseInterceptor } from "./common/interceptors/response/response.interceptor";
 import { BadRequestException, ValidationPipe } from "@nestjs/common";
 import { ValidationError } from "class-validator";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -21,9 +22,9 @@ async function bootstrap() {
 
                 errors.forEach(
                     (err) =>
-                        (errorsMsg[err.property] = Object.values(
-                            err.constraints ?? {},
-                        ).map((v) => v)),
+                    (errorsMsg[err.property] = Object.values(
+                        err.constraints ?? {},
+                    ).map((v) => v)),
                 );
 
                 throw new BadRequestException("Invalid input", {
@@ -33,6 +34,17 @@ async function bootstrap() {
             },
         }),
     );
+
+    // Swagger
+    const config = new DocumentBuilder()
+        .setTitle("Raw II")
+        .setDescription("Raw II API")
+        .setVersion("1.0")
+        .addBearerAuth()
+        .build();
+    const documentFactory = () => SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup("api", app, documentFactory);
+
     // Handle responses
     app.useGlobalInterceptors(new ResponseInterceptor());
     // Handle exceptions

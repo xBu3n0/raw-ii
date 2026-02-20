@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     constructor(
         private readonly authJwtService: AuthJwtService,
         private readonly reflector: Reflector,
-    ) {}
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest<Request>();
@@ -28,6 +28,8 @@ export class AuthGuard implements CanActivate {
         if (isPublic || request.path === "/api/v1/metrics") {
             return true;
         }
+
+        console.log(request.headers);
 
         const token = this.authJwtService.extractToken(
             request.headers.authorization,
