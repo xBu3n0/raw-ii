@@ -25,7 +25,7 @@ export class AuthController {
         private readonly registerUseCase: RegisterUseCase,
         private readonly loginUseCase: LoginUseCase,
         private readonly authService: AuthService,
-    ) { }
+    ) {}
 
     @Public()
     @Post("register")
@@ -45,7 +45,7 @@ export class AuthController {
     @Post("logout")
     @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
-    async logout(): Promise<void> { }
+    async logout(): Promise<void> {}
 
     @Post("refresh")
     @ApiBearerAuth()
@@ -56,7 +56,6 @@ export class AuthController {
 
         return this.authService.refreshTokens(user);
     }
-
 
     @Get("me")
     @ApiBearerAuth()

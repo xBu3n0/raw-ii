@@ -5,7 +5,9 @@ export class Password {
 
     constructor(password: string) {
         if (password.length < 6) {
-            throw new InvalidDomainException("Password must be at least 6 characters long");
+            throw new InvalidDomainException(
+                "Password must be at least 6 characters long",
+            );
         }
 
         this.value = password;

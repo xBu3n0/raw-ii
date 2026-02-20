@@ -8,7 +8,9 @@ describe("Primitiva de Email", () => {
         });
 
         it("deve lançar exceção quando o email é inválido", () => {
-            expect(() => new Email("invalid-email")).toThrow(InvalidDomainException);
+            expect(() => new Email("invalid-email")).toThrow(
+                InvalidDomainException,
+            );
         });
     });
 });

@@ -22,9 +22,9 @@ async function bootstrap() {
 
                 errors.forEach(
                     (err) =>
-                    (errorsMsg[err.property] = Object.values(
-                        err.constraints ?? {},
-                    ).map((v) => v)),
+                        (errorsMsg[err.property] = Object.values(
+                            err.constraints ?? {},
+                        ).map((v) => v)),
                 );
 
                 throw new BadRequestException("Invalid input", {
