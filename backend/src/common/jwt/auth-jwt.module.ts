@@ -8,7 +8,7 @@ import { JwtConfig } from "../consts/jwt";
         JwtModule.register({
             global: true,
             secret: JwtConfig.secret,
-            signOptions: { expiresIn: "30min" },
+            signOptions: { expiresIn: "5min" },
         }),
     ],
     controllers: [],

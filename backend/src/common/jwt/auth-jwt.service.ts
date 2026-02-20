@@ -32,7 +32,6 @@ export class AuthJwtService {
 
     verify(token: string): boolean {
         try {
-            console.log("verify: ", token);
             this.jwtService.verify(token);
 
             return true;
@@ -46,7 +45,13 @@ export class AuthJwtService {
             throw new UnauthorizedException("Invalid token");
         }
 
-        return this.jwtService.decode(token);
+        const decoded = this.jwtService.decode<
+            UserDto & { iat: number; exp: number }
+        >(token);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { iat, exp, ...user } = decoded;
+
+        return user;
     }
 
     extractToken(header: string | undefined): string | undefined {
