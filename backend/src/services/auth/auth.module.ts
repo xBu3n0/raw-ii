@@ -6,8 +6,6 @@ import { PrismaModule } from "@/common/prisma/prisma.module";
 import { EventModule } from "./domain/events/event.module";
 import { RegisterUseCase } from "./application/useCases/register.use-case";
 import { AuthUserRepository } from "./infrastructure/repositories/auth-user.repository";
-import { APP_GUARD } from "@nestjs/core";
-import { AuthGuard } from "@/common/guards/auth/auth.guard";
 import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
 
 @Module({
@@ -19,10 +17,6 @@ import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
         {
             provide: "AUTH_USER_REPOSITORY",
             useClass: AuthUserRepository,
-        },
-        {
-            provide: APP_GUARD,
-            useClass: AuthGuard,
         },
     ],
     controllers: [AuthController],

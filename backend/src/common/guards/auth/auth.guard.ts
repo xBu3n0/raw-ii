@@ -29,8 +29,6 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        console.log(request.headers);
-
         const token = this.authJwtService.extractToken(
             request.headers.authorization,
         );

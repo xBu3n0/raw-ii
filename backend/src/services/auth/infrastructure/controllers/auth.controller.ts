@@ -52,8 +52,6 @@ export class AuthController {
     refresh(@Req() req: Request): Tokens {
         const user = req.user!;
 
-        console.log(user);
-
         return this.authService.refreshTokens(user);
     }
 
