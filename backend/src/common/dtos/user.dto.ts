@@ -1,16 +1,13 @@
-import { AuthUser } from "generated/prisma/browser";
+import type { AuthUser } from "generated/prisma/client";
 
 export class UserDto {
-    sub: number;
     id: number;
-    name: string;
+    username: string;
     email: string;
 
     constructor(authUser: AuthUser) {
-        this.sub = authUser.id;
-
         this.id = authUser.id;
-        this.name = authUser.name;
+        this.username = authUser.username;
         this.email = authUser.email;
     }
 }
