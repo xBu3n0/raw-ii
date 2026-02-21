@@ -57,6 +57,8 @@ jobs:
           cache-dependency-path: backend/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
       - name: Check formatting (Prettier)
         run: npm run format:check
       - name: Check linting (ESLint)
