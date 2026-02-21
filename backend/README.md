@@ -95,22 +95,16 @@ A aplicação é composta por dois processos executados de forma integrada:
  - Documentação Swagger gerada automaticamente e disponível em `/api`, com suporte a autenticação Bearer (JWT);
  - Servidor HTTP executando na porta 80;
 
-### Microserviço RabbitMQ
+### Event Driven Development & Microserviço RabbitMQ
+
+O backend adota **Event-Driven Development** como estratégia arquitetural para promover baixo acoplamento, escalabilidade e propagação explícita de mudanças de estado entre serviços.
 
  - Inicializado a partir do `AppListenerModule`;
  - Transporte RMQ configurado via variável de ambiente;
- - Exchange: `raw-ii`;
- - Fila: `auth`;
- - Fila durável (`durable: true`);
- - Suporte a wildcards para roteamento de eventos;
 
 Essa configuração permite:
 
- - Padronização global de respostas e erros;
- - Validação centralizada de entrada;
- - Documentação automática da API;
- - Execução simultânea da API HTTP e do consumidor de eventos;
- - Comunicação assíncrona baseada em eventos.
+ - Comunicação assíncrona baseada em eventos entre o próprio serviço e entre serviços.
 
 ---
 
@@ -126,7 +120,7 @@ Essa configuração permite:
 
 - Injeção de dependências para baixo acoplamento;
 - Padrão Repository para abstração de acesso a dados;
-- Casos de uso como unidades centrais de regra de negócio;
+- Casos de uso como unidades centrais de regra de negócio.
 
 ---
 

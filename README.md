@@ -60,6 +60,7 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
 
 ### Backend — NestJS
  - Arquitetura limpa, separação de serviços e orientada a domínio;
+ - Aplicação de EDD (Event-Driven Design);
  - Prisma ORM + PostgreSQL;
  - Swagger para documentação de APIs;
  - Integração com RabbitMQ para eventos;
