@@ -6,6 +6,7 @@ import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.reposit
 import { UserCreated } from "@auth/domain/events/user-created.event";
 import { UserDto } from "@/common/dtos/user.dto";
 import { hash } from "argon2";
+import { EmailAlreadyUsedException } from "@auth/domain/exceptions/email-already-exists.exception";
 
 @Injectable()
 export class RegisterUseCase {
@@ -16,16 +17,19 @@ export class RegisterUseCase {
     ) {}
 
     async execute(register: CreateUserRequest): Promise<CreateUserResponse> {
-        const authUser = await this.authUserRepository.create(
-            UserEntity.fromPlain({
-                ...register,
-                password: await hash(register.password),
-                id: undefined,
-            }),
-        );
+        try {
+            const userEntity = await this.authUserRepository.create(
+                UserEntity.fromPlain({
+                    ...register,
+                    password: await hash(register.password),
+                    id: undefined,
+                }),
+            );
+            this.userCreated.emit(new UserDto(userEntity));
 
-        this.userCreated.emit(new UserDto(authUser));
-
-        return CreateUserResponse.fromEntity(UserEntity.fromPlain(authUser));
+            return CreateUserResponse.fromEntity(userEntity);
+        } catch {
+            throw new EmailAlreadyUsedException("Email já utilizado");
+        }
     }
 }
