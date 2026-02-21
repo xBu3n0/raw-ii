@@ -4,6 +4,7 @@ import { AuthModule } from "./services/auth/auth.module";
 import { AuthJwtModule } from "./common/jwt/auth-jwt.module";
 import { AuthGuard } from "./common/guards/auth/auth.guard";
 import { APP_GUARD } from "@nestjs/core/constants";
+import { AuthListenerModule } from "./services/auth/auth-listener.module";
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { APP_GUARD } from "@nestjs/core/constants";
             path: "/metrics",
         }),
         AuthModule,
+        AuthListenerModule,
         AuthJwtModule,
     ],
     controllers: [],

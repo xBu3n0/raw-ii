@@ -5,6 +5,29 @@ import { ResponseInterceptor } from "./common/interceptors/response/response.int
 import { BadRequestException, ValidationPipe } from "@nestjs/common";
 import { ValidationError } from "class-validator";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+import { AppListenerModule } from "./app-listener.module";
+
+async function initRmq() {
+    const rmq = await NestFactory.createMicroservice<MicroserviceOptions>(
+        AppListenerModule,
+        {
+            transport: Transport.RMQ,
+            options: {
+                transport: Transport.RMQ,
+                urls: [process.env.RMQ_URL!],
+                exchange: "raw-ii",
+                queue: "auth",
+                wildcards: true,
+                queueOptions: {
+                    durable: true,
+                },
+            },
+        },
+    );
+
+    await rmq.listen();
+}
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -50,6 +73,8 @@ async function bootstrap() {
     // Handle exceptions
     const httpAdapterHost = app.get(HttpAdapterHost);
     app.useGlobalFilters(new HttpExceptionsFilter(httpAdapterHost));
+
+    await initRmq();
 
     await app.listen(80);
 }
