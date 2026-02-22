@@ -84,7 +84,8 @@
       "^@generated/(.*)$": "<rootDir>/../generated/$1"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "<rootDir>/**/primitives/**/*.ts",
+      "<rootDir>/**/application/**/*.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

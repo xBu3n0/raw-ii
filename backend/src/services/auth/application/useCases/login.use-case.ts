@@ -1,18 +1,17 @@
 import { LoginRequest } from "@auth/dtos/requests/login.request";
 import { LoginResponse, Tokens } from "@auth/dtos/responses/login.response";
 import { Inject, Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "@/common/dtos/user.dto";
-import { verify } from "argon2";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
+import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
 
 @Injectable()
 export class LoginUseCase {
     constructor(
         @Inject("AUTH_USER_REPOSITORY")
         private readonly authUserRepository: IAuthUserRepository,
-        private readonly jwtService: JwtService,
+        private readonly authJwtService: AuthJwtService,
     ) {}
 
     async execute(login: LoginRequest): Promise<LoginResponse> {
@@ -22,7 +21,10 @@ export class LoginUseCase {
 
         if (
             !userEntity ||
-            !(await verify(userEntity.password.value, login.password))
+            !(await this.authJwtService.verifyPassword(
+                userEntity.password.value,
+                login.password,
+            ))
         ) {
             throw new InvalidCredentialsException("Email e/ou senha invalidos");
         }
@@ -30,10 +32,10 @@ export class LoginUseCase {
         return new LoginResponse(
             new UserDto(userEntity),
             new Tokens(
-                this.jwtService.sign(
+                this.authJwtService.sign(
                     Object.assign({}, new UserDto(userEntity)),
                 ),
-                this.jwtService.sign(
+                this.authJwtService.sign(
                     Object.assign({}, new UserDto(userEntity)),
                     {
                         expiresIn: "7d",

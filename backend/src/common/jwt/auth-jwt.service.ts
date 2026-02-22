@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "@/common/dtos/user.dto";
+import { StringValue } from "ms";
+import { verify } from "argon2";
 
 @Injectable()
 export class AuthJwtService {
@@ -18,6 +20,17 @@ export class AuthJwtService {
         } catch {
             return false;
         }
+    }
+
+    sign(
+        payload: UserDto,
+        options?: { expiresIn?: StringValue | number },
+    ): string {
+        return this.jwtService.sign(Object.assign({}, payload), options);
+    }
+
+    verifyPassword(password: string, plainPassword: string): Promise<boolean> {
+        return verify(password, plainPassword);
     }
 
     async checkAsync(token: string): Promise<boolean> {

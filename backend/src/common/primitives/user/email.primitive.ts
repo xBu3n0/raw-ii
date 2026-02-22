@@ -4,7 +4,7 @@ export class Email {
     readonly value: string;
 
     constructor(email: string) {
-        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        if (!email.match(/^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/)) {
             throw new InvalidDomainException("Invalid email format");
         }
 

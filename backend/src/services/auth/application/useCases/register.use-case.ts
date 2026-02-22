@@ -17,14 +17,14 @@ export class RegisterUseCase {
     ) {}
 
     async execute(register: CreateUserRequest): Promise<CreateUserResponse> {
+        const newUser = UserEntity.fromPlain({
+            ...register,
+            password: await hash(register.password),
+            id: undefined,
+        });
+
         try {
-            const userEntity = await this.authUserRepository.create(
-                UserEntity.fromPlain({
-                    ...register,
-                    password: await hash(register.password),
-                    id: undefined,
-                }),
-            );
+            const userEntity = await this.authUserRepository.create(newUser);
             this.userCreated.emit(new UserDto(userEntity));
 
             return CreateUserResponse.fromEntity(userEntity);
