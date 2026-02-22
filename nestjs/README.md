@@ -113,15 +113,15 @@ Essa configuração permite:
 
 ### Domain-Driven Design (DDD)
 
-- Separação entre domínio, aplicação e infraestrutura;
-- Uso de Objetos de Valor para primitivas tipadas;
-- Entidades e eventos de domínio para encapsulamento da lógica de negócio;
+ - Separação entre domínio, aplicação e infraestrutura;
+ - Uso de Objetos de Valor para primitivas tipadas;
+ - Entidades e eventos de domínio para encapsulamento da lógica de negócio;
 
 ### Clean Architecture
 
-- Injeção de dependências para baixo acoplamento;
-- Padrão Repository para abstração de acesso a dados;
-- Casos de uso como unidades centrais de regra de negócio.
+ - Injeção de dependências para baixo acoplamento;
+ - Padrão Repository para abstração de acesso a dados;
+ - Casos de uso como unidades centrais de regra de negócio.
 
 ---
 

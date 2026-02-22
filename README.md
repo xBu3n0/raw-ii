@@ -8,9 +8,9 @@ Ele proporciona uma plataforma colaborativa onde usuários criam e participam em
 
 As decisões arquiteturais foram fundamentadas em três referências clássicas de engenharia de software:
 
-- [Secure by Design (Dan Bergh Johnsson, Daniel Deogun, Daniel Sawano)](https://a.co/d/0cEvub4a);
-- [Unit Testing Principles, Practices, and Patterns (Vladimir Khorikov)](https://a.co/d/00ILeGpF);
-- [Design Patterns: Elements of Reusable Object-Oriented Software (GoF)](https://a.co/d/05B8iGwM);
+ - [Secure by Design (Dan Bergh Johnsson, Daniel Deogun, Daniel Sawano)](https://a.co/d/0cEvub4a);
+ - [Unit Testing Principles, Practices, and Patterns (Vladimir Khorikov)](https://a.co/d/00ILeGpF);
+ - [Design Patterns: Elements of Reusable Object-Oriented Software (GoF)](https://a.co/d/05B8iGwM);
 
 Essas obras influenciaram diretamente a modelagem de domínio, a organização das camadas, o uso de padrões estruturais e comportamentais e a abordagem orientada a testes desde a concepção dos serviços.
 
@@ -54,11 +54,9 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
  - Terminação TLS;
  - Encaminhamento para múltiplos serviços.
 
-### Frontend — Next.js
- - Componentização com shadcn/ui;
- - Autenticação baseada em JWT.
+### Frontend — NextJS []
 
-### Backend — NestJS
+### API — NestJS
  - Arquitetura limpa, separação de serviços e orientada a domínio;
  - Aplicação de EDD (Event-Driven Design);
  - Prisma ORM + PostgreSQL;
@@ -69,6 +67,15 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
  - Padrões de projeto;
  - Testes unitários seguindo a escola London (O sistema sob teste `sut` é a classe base a ser testada).
 
+### Game - []
+
+
+### Payment - []
+
+
+### Chat - []
+
+
 ### Banco de Dados — PostgreSQL
  - Separação lógica entre serviços (utilização de schemas);
 
@@ -77,10 +84,10 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
 A modelagem das tabelas reflete as entidades de domínio, garantindo integridade referencial e separação lógica entre serviços através de schemas dedicados.
 
 **Estrutura de Schemas:**
-- [x] `auth`: Usuários, sessões e credenciais;
-- [ ] `game`: Jogos, usuários, regras e estado das partidas;
-- [ ] `payment`: Transações e assinaturas;
-- [ ] `chat`: Mensagens e canais.
+ - `auth`: Usuários, sessões e credenciais;
+ - `game`: Jogos, usuários, regras e estado das partidas;
+ - `payment`: Transações e assinaturas;
+ - `chat`: Mensagens e canais.
 
 Cada schema é gerenciado pelo serviço responsável, permitindo evolução independente do modelo de dados.
 
