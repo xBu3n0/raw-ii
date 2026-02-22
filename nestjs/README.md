@@ -1,4 +1,4 @@
-# Backend
+# NestJS - Backend API
 
 ## Visão Geral
 
@@ -97,8 +97,9 @@ A aplicação é composta por dois processos executados de forma integrada:
 
 ### Event Driven Development & Microserviço RabbitMQ
 
-O backend adota **Event-Driven Development** como estratégia arquitetural para promover baixo acoplamento, escalabilidade e propagação explícita de mudanças de estado entre serviços.
+A api adota **Event-Driven Development** como estratégia arquitetural para promover baixo acoplamento, escalabilidade e propagação explícita de mudanças de estado entre serviços.
 
+Na API:
  - Inicializado a partir do `AppListenerModule`;
  - Transporte RMQ configurado via variável de ambiente;
 

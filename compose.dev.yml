@@ -36,14 +36,14 @@ services:
       retries: 3
 
   api:
-    container_name: backend
+    container_name: nestjs
     build:
-      context: ./backend
+      context: ./nestjs
       dockerfile: Dockerfile.dev
     volumes:
-      - ./backend:/app
+      - ./nestjs:/app
     env_file:
-      - ./backend/.env.dev
+      - ./nestjs/.env.dev
     restart: always
     ports:
       - ${API_PORT:-5000}:80

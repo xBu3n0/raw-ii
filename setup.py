@@ -2,7 +2,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-FOLDERS = [Path("backend"), Path("frontend")]
+FOLDERS = [Path("nestjs"), Path("frontend")]
 
 def setup_env_files(folder: Path):
     example_file = folder / ".env.example"

@@ -34,14 +34,14 @@ services:
       retries: 3
 
   api:
-    container_name: backend
+    container_name: nestjs
     build:
-      context: ./backend
+      context: ./nestjs
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
+      - ./nestjs:/app
     env_file:
-      - ./backend/.env.prod
+      - ./nestjs/.env.prod
     restart: always
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost/" ]
