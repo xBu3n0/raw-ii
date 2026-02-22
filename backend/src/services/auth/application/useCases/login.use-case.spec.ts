@@ -62,7 +62,7 @@ describe("LoginUseCase", () => {
 
         it.each([
             [new Email(userRef.email.value), new Password(userRef.password.value + "-wrong-password")],
-            [new Email(userRef.email.value + "co"), new Password(userRef.password.value)],
+            [new Email(userRef.email.value + "w"), new Password(userRef.password.value)],
             ["not@email.com", "123456"],
         ])(
             "Usuário com as credenciais inválidas não pode fazer login",
