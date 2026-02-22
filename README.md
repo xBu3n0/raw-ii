@@ -77,10 +77,10 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
 A modelagem das tabelas reflete as entidades de domínio, garantindo integridade referencial e separação lógica entre serviços através de schemas dedicados.
 
 **Estrutura de Schemas:**
-- `auth`: Usuários, sessões e credenciais;
-- `game`: Jogos, regras e estado das partidas;
-- `payment`: Transações e assinaturas;
-- `chat`: Mensagens e canais.
+- [x] `auth`: Usuários, sessões e credenciais;
+- [ ] `game`: Jogos, usuários, regras e estado das partidas;
+- [ ] `payment`: Transações e assinaturas;
+- [ ] `chat`: Mensagens e canais.
 
 Cada schema é gerenciado pelo serviço responsável, permitindo evolução independente do modelo de dados.
 
