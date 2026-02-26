@@ -1,8 +1,8 @@
 import { IAuthUserRepository } from "../../domain/repositories/auth-user.repository";
 import { AuthService } from "./auth.service";
-import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
 import { UserDto } from "@/common/dtos/user.dto";
 import { UserEntity } from "../../domain/entities/user.entity";
+import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 
 describe("AuthService", () => {
     let sut: AuthService;
@@ -25,7 +25,7 @@ describe("AuthService", () => {
 
             const authJwtService = {
                 sign: jest.fn().mockReturnValue(RESULT_TOKEN),
-            } as unknown as AuthJwtService;
+            } as unknown as IAuthJwtService;
 
             sut = new AuthService(authUserRepository, authJwtService);
         });

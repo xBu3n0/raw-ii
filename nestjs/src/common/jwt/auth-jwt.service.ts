@@ -3,9 +3,10 @@ import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "@/common/dtos/user.dto";
 import { StringValue } from "ms";
 import { verify } from "argon2";
+import { IAuthJwtService } from "./iauth-jwt.service";
 
 @Injectable()
-export class AuthJwtService {
+export class AuthJwtService implements IAuthJwtService {
     constructor(private readonly jwtService: JwtService) {}
 
     check(token: string): boolean {

@@ -7,6 +7,7 @@ import { EventModule } from "./domain/events/event.module";
 import { RegisterUseCase } from "./application/useCases/register.use-case";
 import { AuthUserRepository } from "./infrastructure/repositories/auth-user.repository";
 import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
+import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
 
 @Module({
     imports: [PrismaModule, EventModule, AuthJwtModule],
@@ -17,6 +18,10 @@ import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
         {
             provide: "AUTH_USER_REPOSITORY",
             useClass: AuthUserRepository,
+        },
+        {
+            provide: "AUTH_JWT_SERVICE",
+            useClass: AuthJwtService,
         },
     ],
     controllers: [AuthController],

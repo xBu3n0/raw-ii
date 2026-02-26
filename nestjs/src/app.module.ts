@@ -22,6 +22,10 @@ import { AuthListenerModule } from "./services/auth/auth-listener.module";
             provide: APP_GUARD,
             useClass: AuthGuard,
         },
+        {
+            provide: "AUTH_JWT_SERVICE",
+            useClass: AuthJwtModule,
+        },
     ],
 })
 export class AppModule {}

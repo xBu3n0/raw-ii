@@ -1,5 +1,4 @@
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
-import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
 import { UserDto } from "@/common/dtos/user.dto";
 import { UserEntity } from "@auth/domain/entities/user.entity";
 import { LoginUseCase } from "./login.use-case";
@@ -7,6 +6,7 @@ import { LoginResponse, Tokens } from "@auth/dtos/responses/login.response";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
 import { Password } from "@/common/primitives/user/password.primitive";
 import { Email } from "@/common/primitives/user/email.primitive";
+import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 
 describe("LoginUseCase", () => {
     let sut: LoginUseCase;
@@ -36,7 +36,7 @@ describe("LoginUseCase", () => {
                     .fn()
                     .mockImplementation((p1, p2) => p1 === p2),
                 sign: jest.fn().mockReturnValue(RESULT_TOKEN),
-            } as unknown as AuthJwtService;
+            } as unknown as IAuthJwtService;
 
             sut = new LoginUseCase(authUserRepository, authJwtService);
         });
@@ -61,8 +61,14 @@ describe("LoginUseCase", () => {
         });
 
         it.each([
-            [new Email(userRef.email.value), new Password(userRef.password.value + "-wrong-password")],
-            [new Email(userRef.email.value + "w"), new Password(userRef.password.value)],
+            [
+                new Email(userRef.email.value),
+                new Password(userRef.password.value + "-wrong-password"),
+            ],
+            [
+                new Email(userRef.email.value + "w"),
+                new Password(userRef.password.value),
+            ],
             ["not@email.com", "123456"],
         ])(
             "Usuário com as credenciais inválidas não pode fazer login",

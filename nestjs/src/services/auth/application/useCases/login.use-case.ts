@@ -4,14 +4,15 @@ import { Inject, Injectable } from "@nestjs/common";
 import { UserDto } from "@/common/dtos/user.dto";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
-import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
+import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 
 @Injectable()
 export class LoginUseCase {
     constructor(
         @Inject("AUTH_USER_REPOSITORY")
         private readonly authUserRepository: IAuthUserRepository,
-        private readonly authJwtService: AuthJwtService,
+        @Inject("AUTH_JWT_SERVICE")
+        private readonly authJwtService: IAuthJwtService,
     ) {}
 
     async execute(login: LoginRequest): Promise<LoginResponse> {
