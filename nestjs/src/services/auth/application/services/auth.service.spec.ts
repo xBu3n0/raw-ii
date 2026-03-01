@@ -14,23 +14,31 @@ describe("AuthService", () => {
 
     const RESULT_TOKEN = "valid-token";
 
-    function createAuthService(): AuthService {
+    function createAuthService(): {
+        authService: AuthService;
+        authUserRepository: IAuthUserRepository;
+        authJwtService: IAuthJwtService;
+    } {
         const authUserRepository: IAuthUserRepository = {
             create: jest.fn(),
             findByEmail: jest.fn(),
         };
-
         const authJwtService = {
-            sign: jest.fn().mockReturnValue(RESULT_TOKEN),
+            sign: jest.fn().mockImplementation(() => RESULT_TOKEN),
         } as unknown as IAuthJwtService;
+        const authService = new AuthService(authUserRepository, authJwtService);
 
-        return new AuthService(authUserRepository, authJwtService);
+        return {
+            authService,
+            authUserRepository,
+            authJwtService,
+        };
     }
 
     describe("refreshTokens", () => {
         it("Retorna tokens de acesso e refresh", () => {
             // Given
-            const sut = createAuthService();
+            const { authService: sut } = createAuthService();
             const userDto = new UserDto(userRef);
 
             // When
