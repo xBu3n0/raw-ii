@@ -1,4 +1,4 @@
-model User {
+model PublicUser {
     id       Int    @id
     username String
     email    String @unique
