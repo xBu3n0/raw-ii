@@ -1,17 +1,17 @@
 import { Module } from "@nestjs/common";
-import { RmqApiService } from "./rmq-api.service";
 import {
     ClientProvider,
     ClientsModule,
     Transport,
 } from "@nestjs/microservices";
 import { RmqConfig } from "@/common/consts/rmq";
+import { RmqEventEmitter } from "./rmq-event.emitter";
 
 @Module({
     imports: [
         ClientsModule.registerAsync([
             {
-                name: "RMQ_SERVICE",
+                name: "RMQ_EMITTER",
                 useFactory: (): ClientProvider => ({
                     transport: Transport.RMQ,
                     options: {
@@ -25,7 +25,7 @@ import { RmqConfig } from "@/common/consts/rmq";
             },
         ]),
     ],
-    providers: [RmqApiService],
-    exports: [RmqApiService],
+    providers: [RmqEventEmitter],
+    exports: [RmqEventEmitter],
 })
-export class RmqApiModule {}
+export class RmqApiModule { }

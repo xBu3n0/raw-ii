@@ -6,7 +6,3 @@ export const RmqConfig = {
     exchange: "auth-exchange",
     queue: "auth",
 };
-
-export enum RmqEvent {
-    USER_CREATED = "user.created",
-}

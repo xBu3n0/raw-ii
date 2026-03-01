@@ -3,18 +3,19 @@ import { AuthController } from "./infrastructure/controllers/auth.controller";
 import { AuthService } from "./application/services/auth.service";
 import { LoginUseCase } from "./application/useCases/login.use-case";
 import { PrismaModule } from "@/common/prisma/prisma.module";
-import { EventModule } from "./domain/events/event.module";
 import { RegisterUseCase } from "./application/useCases/register.use-case";
 import { AuthUserRepository } from "./infrastructure/repositories/auth-user.repository";
 import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
 import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
+import { RmqApiModule } from "@/common/rmq/rmq-emitter.module";
+import { UserCreated } from "./domain/events/user-created.event";
+import { RmqEventEmitter } from "@/common/rmq/rmq-event.emitter";
 
 @Module({
-    imports: [PrismaModule, EventModule, AuthJwtModule],
+    imports: [PrismaModule, AuthJwtModule, RmqApiModule],
     providers: [
+        // Auth
         AuthService,
-        RegisterUseCase,
-        LoginUseCase,
         {
             provide: "AUTH_USER_REPOSITORY",
             useClass: AuthUserRepository,
@@ -23,7 +24,16 @@ import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
             provide: "AUTH_JWT_SERVICE",
             useClass: AuthJwtService,
         },
+        // UseCases
+        RegisterUseCase,
+        LoginUseCase,
+        // EventEmitter
+        {
+            provide: "RMQ_EVENT_EMMITER",
+            useClass: RmqEventEmitter,
+        },
+        UserCreated,
     ],
     controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }
