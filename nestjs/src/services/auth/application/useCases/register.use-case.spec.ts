@@ -31,12 +31,14 @@ describe("RegisterUseCase", () => {
                             throw new Error();
                         }
 
-                        return UserEntity.fromPlain({
-                            id: 2,
-                            username: newUser.username.value,
-                            email: newUser.email.value,
-                            password: newUser.password.value,
-                        });
+                        return Promise.resolve(
+                            UserEntity.fromPlain({
+                                id: 2,
+                                username: newUser.username.value,
+                                email: newUser.email.value,
+                                password: newUser.password.value,
+                            }),
+                        );
                     },
                 ),
         } as unknown as IAuthUserRepository;

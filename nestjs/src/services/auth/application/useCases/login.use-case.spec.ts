@@ -28,7 +28,11 @@ describe("LoginUseCase", () => {
                 .fn()
                 .mockImplementation(
                     async (email: Email): Promise<UserEntity | null> =>
-                        userRef.email.value === email.value ? userRef : null,
+                        Promise.resolve(
+                            userRef.email.value === email.value
+                                ? userRef
+                                : null,
+                        ),
                 ),
         };
         const authJwtService = {
