@@ -7,10 +7,11 @@ describe("Primitiva de Senha", () => {
             "Senhas válidas permitem instanciar a primitiva",
             (password) => {
                 // When
-                const result = expect(new Password(password));
+                const result = new Password(password);
 
                 // Then
-                result.toBeInstanceOf(Password);
+                expect(result).toBeInstanceOf(Password);
+                expect(result.value).toBe(password);
             },
         );
 
@@ -18,10 +19,10 @@ describe("Primitiva de Senha", () => {
             "Senhas inválidas lançam exceção",
             (password) => {
                 // When
-                const result = expect(() => new Password(password));
+                const result = () => new Password(password);
 
                 // Then
-                result.toThrow(InvalidDomainException);
+                expect(result).toThrow(InvalidDomainException);
             },
         );
     });

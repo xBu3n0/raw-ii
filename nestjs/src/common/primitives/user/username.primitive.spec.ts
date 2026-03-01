@@ -7,10 +7,11 @@ describe("Primitiva Username", () => {
             "Usernames válidos permitem instanciar a primitiva",
             (username) => {
                 // When
-                const result = expect(new Username(username));
+                const result = new Username(username);
 
                 // Then
-                result.toBeInstanceOf(Username);
+                expect(result).toBeInstanceOf(Username);
+                expect(result.value).toBe(username);
             },
         );
 
@@ -18,10 +19,10 @@ describe("Primitiva Username", () => {
             "Usernames inválidos lançam exceção",
             (username) => {
                 // When
-                const result = expect(() => new Username(username));
+                const result = () => new Username(username);
 
                 // Then
-                result.toThrow(InvalidDomainException);
+                expect(result).toThrow(InvalidDomainException);
             },
         );
     });

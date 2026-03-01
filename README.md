@@ -65,7 +65,7 @@ Cada serviço é isolado, com dependências explícitas e comunicação via HTTP
  - Guards e decorators para controle de autorização;
  - Primitivas de domínio e integridade de estados;
  - Padrões de projeto;
- - Testes unitários seguindo a escola London (O sistema sob teste `sut` é a classe base a ser testada).
+ - Testes unitários seguindo a escola Clássica (O sistema sob teste `sut` é utilizado para testar comportamentos).
 
 ### Game - []
 
@@ -117,7 +117,7 @@ Para explorar a modelagem de dados, utilize o arquivo `.docs/modelagem - der.gra
  - Separação entre domínio, serviços e infraestrutura.
 
 ### Unit Testing Principles, Practices, and Patterns
- - Implementação de testes unitários seguindo a escola London;
+ - Implementação de testes unitários seguindo a escola Clássica;
  - Infraestrutura desacoplada por interfaces;
  - Uso de mocks para isolamento de dependências.
 

@@ -1,14 +1,13 @@
-import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { UserEntity } from "@auth/domain/entities/user.entity";
 import { RegisterUseCase } from "./register.use-case";
 import { UserCreated } from "@auth/domain/events/user-created.event";
 import { CreateUserResponse } from "@auth/dtos/responses/create-user.response";
 import { EmailAlreadyUsedException } from "@auth/domain/exceptions/email-already-exists.exception";
 import { Email } from "@/common/primitives/user/email.primitive";
+import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
+import { IAuthUserRepository } from "../../domain/repositories/auth-user.repository";
 
 describe("RegisterUseCase", () => {
-    let sut: RegisterUseCase;
-
     const userRef = UserEntity.fromPlain({
         id: 1,
         username: "username_test",
@@ -16,52 +15,62 @@ describe("RegisterUseCase", () => {
         password: "password123",
     });
 
+    function createRegisterUseCase(): {
+        registerUseCase: RegisterUseCase;
+        authUserRepository: IAuthUserRepository;
+        userCreatedEvent: UserCreated;
+    } {
+        jest.mock("@auth/domain/events/user-created.event");
+
+        const authUserRepository = {
+            create: jest
+                .fn()
+                .mockImplementation(
+                    async (newUser: UserEntity): Promise<UserEntity> => {
+                        if (newUser.email.value === userRef.email.value) {
+                            throw new Error();
+                        }
+
+                        return UserEntity.fromPlain({
+                            id: 2,
+                            username: newUser.username.value,
+                            email: newUser.email.value,
+                            password: newUser.password.value,
+                        });
+                    },
+                ),
+        } as unknown as IAuthUserRepository;
+        const userCreatedEvent = new UserCreated({ emit: jest.fn() });
+        const registerUseCase = new RegisterUseCase(
+            authUserRepository,
+            userCreatedEvent,
+        );
+
+        return {
+            registerUseCase,
+            authUserRepository,
+            userCreatedEvent,
+        };
+    }
+
     describe("register", () => {
-        beforeAll(() => {
-            const authUserRepository: IAuthUserRepository = {
-                create: jest
-                    .fn()
-                    .mockImplementation(
-                        (user: UserEntity): Promise<UserEntity> => {
-                            if (user.email.value === userRef.email.value) {
-                                throw new Error("Email já utilizado");
-                            }
-
-                            return Promise.resolve(
-                                UserEntity.fromPlain({
-                                    username: user.username.value,
-                                    email: user.email.value,
-                                    password: user.password.value,
-                                    id: 2,
-                                }),
-                            );
-                        },
-                    ),
-                findByEmail: jest.fn(),
-            };
-
-            const userCreated = {
-                emit: jest.fn(),
-            } as unknown as UserCreated;
-
-            sut = new RegisterUseCase(authUserRepository, userCreated);
-        });
-
         it("Usuário com email não utilizado consegue criar uma conta", async () => {
             // Given
-            const differentEmail = new Email(userRef.email.value + "c");
+            const { registerUseCase: sut, userCreatedEvent } =
+                createRegisterUseCase();
+            const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");
 
-            const newUser = {
+            const newUser: CreateUserRequest = {
                 username: userRef.username.value,
-                email: differentEmail.value,
+                email: new Email(userRef.email.value + "c").value,
                 password: userRef.password.value,
             };
 
             // When
-            const result = expect(sut.execute(newUser));
+            const result = sut.execute(newUser);
 
             // Then
-            await result.resolves.toEqual(
+            await expect(result).resolves.toEqual(
                 CreateUserResponse.fromEntity(
                     UserEntity.fromPlain({
                         id: 2,
@@ -71,21 +80,26 @@ describe("RegisterUseCase", () => {
                     }),
                 ),
             );
+            expect(userCreatedEmit).toHaveBeenCalled();
         });
 
         it("Usuário com email já utilizado não consegue criar uma conta", async () => {
             // Given
-            const newUser = {
+            const newUser: CreateUserRequest = {
                 username: userRef.username.value,
                 email: userRef.email.value,
                 password: userRef.password.value,
             };
+            const { registerUseCase: sut, userCreatedEvent } =
+                createRegisterUseCase();
+            const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");
 
             // When
-            const result = expect(() => sut.execute(newUser));
+            const result = sut.execute(newUser);
 
             // Then
-            await result.rejects.toThrow(EmailAlreadyUsedException);
+            await expect(result).rejects.toThrow(EmailAlreadyUsedException);
+            expect(userCreatedEmit).not.toHaveBeenCalled();
         });
     });
 });

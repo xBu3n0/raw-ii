@@ -7,19 +7,20 @@ describe("Primitiva UserId", () => {
             "Ids válidos permitem instanciar a primitiva",
             (id) => {
                 // When
-                const result = expect(new UserId(id));
+                const result = new UserId(id);
 
                 // Then
-                result.toBeInstanceOf(UserId);
+                expect(result).toBeInstanceOf(UserId);
+                expect(result.value).toBe(id);
             },
         );
 
         it.each([0.5, -1, -0.5, 1.5])("Ids inválidos lançam exceção", (id) => {
             // When
-            const result = expect(() => new UserId(id));
+            const result = () => new UserId(id);
 
             // Then
-            result.toThrow(InvalidDomainException);
+            expect(result).toThrow(InvalidDomainException);
         });
     });
 });
