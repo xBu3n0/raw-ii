@@ -36,4 +36,4 @@ import { RmqEventEmitter } from "@/common/rmq/rmq-event.emitter";
     ],
     controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

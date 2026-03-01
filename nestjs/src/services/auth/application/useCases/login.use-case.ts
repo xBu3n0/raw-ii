@@ -5,6 +5,7 @@ import { UserDto } from "@/common/dtos/user.dto";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
+import { Email } from "@/common/primitives/user/email.primitive";
 
 @Injectable()
 export class LoginUseCase {
@@ -17,7 +18,7 @@ export class LoginUseCase {
 
     async execute(login: LoginRequest): Promise<LoginResponse> {
         const userEntity = await this.authUserRepository.findByEmail(
-            login.email,
+            new Email(login.email),
         );
 
         if (

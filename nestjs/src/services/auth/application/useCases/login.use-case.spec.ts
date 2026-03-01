@@ -26,15 +26,19 @@ describe("LoginUseCase", () => {
             create: jest.fn(),
             findByEmail: jest
                 .fn()
-                .mockImplementation(async (email: Email): Promise<UserEntity | null> =>
-                    userRef.email.value === email.value ? userRef : null,
+                .mockImplementation(
+                    async (email: Email): Promise<UserEntity | null> =>
+                        userRef.email.value === email.value ? userRef : null,
                 ),
         };
         const authJwtService = {
             verifyPassword: jest.fn().mockImplementation((p1, p2) => p1 === p2),
             sign: jest.fn().mockReturnValue(RESULT_TOKEN),
         } as unknown as IAuthJwtService;
-        const loginUseCase = new LoginUseCase(authUserRepository, authJwtService);
+        const loginUseCase = new LoginUseCase(
+            authUserRepository,
+            authJwtService,
+        );
 
         return {
             loginUseCase,

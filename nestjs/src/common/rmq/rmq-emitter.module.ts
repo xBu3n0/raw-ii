@@ -26,6 +26,6 @@ import { RmqEventEmitter } from "./rmq-event.emitter";
         ]),
     ],
     providers: [RmqEventEmitter],
-    exports: [RmqEventEmitter],
+    exports: [ClientsModule, RmqEventEmitter],
 })
-export class RmqApiModule { }
+export class RmqApiModule {}

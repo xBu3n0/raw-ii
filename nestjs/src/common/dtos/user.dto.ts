@@ -1,5 +1,5 @@
 import { UserEntity } from "@/services/auth/domain/entities/user.entity";
-import { InvalidDomainException } from "../exceptions/invalid-domain.exception";
+import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
 
 export class UserDto {
     id: number;
