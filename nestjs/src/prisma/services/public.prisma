@@ -1,0 +1,8 @@
+model User {
+    id       Int    @id
+    username String
+    email    String @unique
+
+    @@map("users")
+    @@schema("public")
+}

@@ -14,22 +14,3 @@ datasource db {
   provider = "postgresql"
   schemas  = ["auth", "public"]
 }
-
-model AuthUser {
-  id       Int    @id @default(autoincrement())
-  username String
-  email    String @unique
-  password String
-
-  @@map("users")
-  @@schema("auth")
-}
-
-model User {
-  id       Int    @id
-  username String
-  email    String @unique
-
-  @@map("users")
-  @@schema("public")
-}
