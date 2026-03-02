@@ -30,19 +30,19 @@ export class UserEntity {
 
     static fromPlain(user: PlainUser): UserEntity {
         return new this(
-            user.id ? new UserId(user.id) : undefined,
-            new Username(user.username),
-            new Email(user.email),
-            new Password(user.password),
+            user.id ? UserId.create(user.id) : undefined,
+            Username.create(user.username),
+            Email.create(user.email),
+            Password.create(user.password),
         );
     }
 
     static fromCreateUserRequest(user: CreateUserRequest): UserEntity {
         return new this(
             undefined,
-            new Username(user.username),
-            new Email(user.email),
-            new Password(user.password),
+            Username.create(user.username),
+            Email.create(user.email),
+            Password.create(user.password),
         );
     }
 }

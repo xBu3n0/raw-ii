@@ -7,7 +7,7 @@ describe("Primitiva de Email", () => {
             "Emails válidos permitem instanciar a primitiva",
             (email) => {
                 // When
-                const result = new Email(email);
+                const result = Email.create(email);
 
                 // Then
                 expect(result).toBeInstanceOf(Email);
@@ -23,7 +23,7 @@ describe("Primitiva de Email", () => {
             "username@domain..com",
         ])("Emails inválidos lançam exceção", (email) => {
             // When
-            const result = () => new Email(email);
+            const result = () => Email.create(email);
 
             // Then
             expect(result).toThrow(InvalidDomainException);

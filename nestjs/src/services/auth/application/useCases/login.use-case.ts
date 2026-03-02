@@ -18,7 +18,7 @@ export class LoginUseCase {
 
     async execute(login: LoginRequest): Promise<LoginResponse> {
         const userEntity = await this.authUserRepository.findByEmail(
-            new Email(login.email),
+            Email.create(login.email),
         );
 
         if (

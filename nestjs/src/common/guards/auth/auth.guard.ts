@@ -39,11 +39,11 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException();
         }
 
-        if (!(await this.authJwtService.checkAsync(token))) {
+        if (!(await this.authJwtService.isTokenSign(token))) {
             throw new UnauthorizedException();
         }
 
-        request.user = this.authJwtService.decode(token);
+        request.user = await this.authJwtService.decode(token);
 
         return true;
     }

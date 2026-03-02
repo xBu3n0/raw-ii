@@ -1,13 +1,13 @@
 import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
 
 export class Email {
-    readonly value: string;
+    private constructor(public readonly value: string) {}
 
-    constructor(email: string) {
+    static create(email: string): Email {
         if (!email.match(/^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/)) {
             throw new InvalidDomainException("Invalid email format");
         }
 
-        this.value = email;
+        return new Email(email);
     }
 }

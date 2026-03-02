@@ -2,20 +2,20 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "@/common/dtos/user.dto";
 import { StringValue } from "ms";
-import { verify } from "argon2";
 import { IAuthJwtService } from "./iauth-jwt.service";
+import { verify } from "@node-rs/argon2";
 
 @Injectable()
 export class AuthJwtService implements IAuthJwtService {
     constructor(private readonly jwtService: JwtService) {}
 
-    check(token: string): boolean {
+    async isTokenValid(token: string): Promise<boolean> {
         if (!token) {
             return false;
         }
 
         try {
-            this.decode(token);
+            await this.decode(token);
 
             return true;
         } catch {
@@ -34,7 +34,7 @@ export class AuthJwtService implements IAuthJwtService {
         return verify(password, plainPassword);
     }
 
-    async checkAsync(token: string): Promise<boolean> {
+    async isTokenSign(token: string): Promise<boolean> {
         try {
             await this.jwtService.verifyAsync(token);
 
@@ -44,18 +44,8 @@ export class AuthJwtService implements IAuthJwtService {
         }
     }
 
-    verify(token: string): boolean {
-        try {
-            this.jwtService.verify(token);
-
-            return true;
-        } catch {
-            return false;
-        }
-    }
-
-    decode(token: string): UserDto {
-        if (!this.verify(token)) {
+    async decode(token: string): Promise<UserDto> {
+        if (!(await this.isTokenSign(token))) {
             throw new UnauthorizedException("Invalid token");
         }
 

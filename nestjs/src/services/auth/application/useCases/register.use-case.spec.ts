@@ -64,7 +64,7 @@ describe("RegisterUseCase", () => {
 
             const newUser: CreateUserRequest = {
                 username: userRef.username.value,
-                email: new Email(userRef.email.value + "c").value,
+                email: Email.create(userRef.email.value + "c").value,
                 password: userRef.password.value,
             };
 
@@ -76,9 +76,7 @@ describe("RegisterUseCase", () => {
                 CreateUserResponse.fromEntity(
                     UserEntity.fromPlain({
                         id: 2,
-                        username: newUser.username,
-                        email: newUser.email,
-                        password: newUser.password,
+                        ...newUser,
                     }),
                 ),
             );

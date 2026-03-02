@@ -1,17 +1,18 @@
 import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
 import { Password } from "./password.primitive";
+import { verify } from "@node-rs/argon2";
 
 describe("Primitiva de Senha", () => {
     describe("Senha", () => {
         it.each(["123456", "asbcewq", "!^&@*&uidowh", "with spaces"])(
             "Senhas válidas permitem instanciar a primitiva",
-            (password) => {
+            async (password) => {
                 // When
-                const result = new Password(password);
+                const result = Password.create(password);
 
                 // Then
                 expect(result).toBeInstanceOf(Password);
-                expect(result.value).toBe(password);
+                expect(await verify(result.value, password)).toBe(true);
             },
         );
 
@@ -19,7 +20,7 @@ describe("Primitiva de Senha", () => {
             "Senhas inválidas lançam exceção",
             (password) => {
                 // When
-                const result = () => new Password(password);
+                const result = () => Password.create(password);
 
                 // Then
                 expect(result).toThrow(InvalidDomainException);

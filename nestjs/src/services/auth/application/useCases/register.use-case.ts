@@ -5,7 +5,6 @@ import { UserEntity } from "@auth/domain/entities/user.entity";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { UserCreated } from "@auth/domain/events/user-created.event";
 import { UserDto } from "@/common/dtos/user.dto";
-import { hash } from "argon2";
 import { EmailAlreadyUsedException } from "@auth/domain/exceptions/email-already-exists.exception";
 
 @Injectable()
@@ -19,7 +18,6 @@ export class RegisterUseCase {
     async execute(register: CreateUserRequest): Promise<CreateUserResponse> {
         const newUser = UserEntity.fromPlain({
             ...register,
-            password: await hash(register.password),
             id: undefined,
         });
 

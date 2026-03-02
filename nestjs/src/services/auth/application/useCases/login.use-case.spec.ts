@@ -74,14 +74,14 @@ describe("LoginUseCase", () => {
 
         it.each([
             [
-                new Email(userRef.email.value),
-                new Password(userRef.password.value + "-wrong-password"),
+                Email.create(userRef.email.value),
+                Password.create(userRef.password.value + "-wrong-password"),
             ],
             [
-                new Email(userRef.email.value + "w"),
-                new Password(userRef.password.value),
+                Email.create(userRef.email.value + "w"),
+                Password.create(userRef.password.value),
             ],
-            [new Email("another@email.com"), new Password("123456")],
+            [Email.create("another@email.com"), Password.create("123456")],
         ])(
             "Usuário com as credenciais inválidas não pode fazer login",
             async (email: Email, password: Password) => {

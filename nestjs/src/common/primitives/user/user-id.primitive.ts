@@ -1,15 +1,15 @@
 import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
 
 export class UserId {
-    readonly value: number;
+    private constructor(public readonly value: number) {}
 
-    constructor(userId: number) {
+    static create(userId: number): UserId {
         if (!Number.isInteger(userId) || userId <= 0) {
             throw new InvalidDomainException(
                 "UserId must be a positive integer",
             );
         }
 
-        this.value = userId;
+        return new UserId(userId);
     }
 }

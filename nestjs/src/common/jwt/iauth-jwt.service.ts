@@ -1,7 +1,7 @@
 import { UserDto } from "@/common/dtos/user.dto";
 
 export abstract class IAuthJwtService {
-    abstract check(token: string): boolean;
+    abstract isTokenValid(token: string): Promise<boolean>;
 
     abstract sign(
         payload: UserDto,
@@ -13,11 +13,9 @@ export abstract class IAuthJwtService {
         plainPassword: string,
     ): Promise<boolean>;
 
-    abstract checkAsync(token: string): Promise<boolean>;
+    abstract isTokenSign(token: string): Promise<boolean>;
 
-    abstract verify(token: string): boolean;
-
-    abstract decode(token: string): UserDto;
+    abstract decode(token: string): Promise<UserDto>;
 
     abstract extractToken(header: string | undefined): string | undefined;
 }

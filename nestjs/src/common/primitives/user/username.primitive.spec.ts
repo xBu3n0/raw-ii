@@ -7,7 +7,7 @@ describe("Primitiva Username", () => {
             "Usernames válidos permitem instanciar a primitiva",
             (username) => {
                 // When
-                const result = new Username(username);
+                const result = Username.create(username);
 
                 // Then
                 expect(result).toBeInstanceOf(Username);
@@ -19,7 +19,7 @@ describe("Primitiva Username", () => {
             "Usernames inválidos lançam exceção",
             (username) => {
                 // When
-                const result = () => new Username(username);
+                const result = () => Username.create(username);
 
                 // Then
                 expect(result).toThrow(InvalidDomainException);

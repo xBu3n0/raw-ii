@@ -1,15 +1,16 @@
 import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
+import { hashSync } from "@node-rs/argon2";
 
 export class Password {
-    readonly value: string;
+    private constructor(public readonly value: string) {}
 
-    constructor(password: string) {
+    static create(password: string): Password {
         if (password.length < 6) {
             throw new InvalidDomainException(
                 "Password must be at least 6 characters long",
             );
         }
 
-        this.value = password;
+        return new Password(hashSync(password));
     }
 }
