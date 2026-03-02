@@ -1,8 +1,5 @@
-model PublicUser {
-    id       Int    @id
-    username String
-    email    String @unique
+model Template {
+    id Int @id
 
-    @@map("users")
     @@schema("public")
 }

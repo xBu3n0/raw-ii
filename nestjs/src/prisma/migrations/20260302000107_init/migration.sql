@@ -12,16 +12,11 @@ CREATE TABLE "auth"."users" (
 );
 
 -- CreateTable
-CREATE TABLE "users" (
+CREATE TABLE "Template" (
     "id" INTEGER NOT NULL,
-    "username" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "auth"."users"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
