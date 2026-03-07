@@ -4,7 +4,7 @@ import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.reposit
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 import { Email } from "@/common/primitives/user/email.primitive";
-import { Tokens } from "@/services/auth/common/token.type";
+import { Tokens } from "@/services/auth/common/types/token.type";
 import { LoginInput } from "./login.input";
 import { LoginOutput } from "./login.output";
 
@@ -15,7 +15,7 @@ export class LoginUseCase {
         private readonly authUserRepository: IAuthUserRepository,
         @Inject("AUTH_JWT_SERVICE")
         private readonly authJwtService: IAuthJwtService,
-    ) {}
+    ) { }
 
     async execute(login: LoginInput): Promise<LoginOutput> {
         const userEntity = await this.authUserRepository.findByEmail(

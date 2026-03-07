@@ -18,7 +18,7 @@ import { UserDto } from "@/common/dtos/user.dto";
 import { Public } from "@/common/guards/auth/public.decorator";
 import { AuthService } from "@auth/application/services/auth.service";
 import { ApiBearerAuth } from "@nestjs/swagger";
-import { Tokens } from "@auth/common/token.type";
+import { Tokens } from "@/services/auth/common/types/token.type";
 import { RegisterInput } from "@auth/application/useCases/register/register.input";
 import { LoginInput } from "@auth/application/useCases/login/login.input";
 
@@ -28,7 +28,7 @@ export class AuthController {
         private readonly registerUseCase: RegisterUseCase,
         private readonly loginUseCase: LoginUseCase,
         private readonly authService: AuthService,
-    ) {}
+    ) { }
 
     @Public()
     @Post("register")
@@ -58,7 +58,7 @@ export class AuthController {
     @Post("logout")
     @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
-    async logout(): Promise<void> {}
+    async logout(): Promise<void> { }
 
     @Post("refresh")
     @ApiBearerAuth()

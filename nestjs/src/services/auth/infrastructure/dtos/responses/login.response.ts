@@ -1,6 +1,6 @@
 import { UserDto } from "@/common/dtos/user.dto";
 import { LoginOutput } from "@/services/auth/application/useCases/login/login.output";
-import { Tokens } from "@/services/auth/common/token.type";
+import { Tokens } from "@/services/auth/common/types/token.type";
 
 export class LoginResponse {
     user: UserDto;

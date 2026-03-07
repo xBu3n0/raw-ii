@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { UserDto } from "@/common/dtos/user.dto";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
-import { Tokens } from "../../common/token.type";
+import { Tokens } from "../../common/types/token.type";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
         private readonly authUserRepository: IAuthUserRepository,
         @Inject("AUTH_JWT_SERVICE")
         private readonly authJwtService: IAuthJwtService,
-    ) {}
+    ) { }
 
     refreshTokens(user: UserDto): Tokens {
         return new Tokens(

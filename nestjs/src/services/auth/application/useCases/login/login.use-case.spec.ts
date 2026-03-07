@@ -6,7 +6,7 @@ import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-cre
 import { Password } from "@/common/primitives/user/password.primitive";
 import { Email } from "@/common/primitives/user/email.primitive";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
-import { Tokens } from "@/services/auth/common/token.type";
+import { Tokens } from "@/services/auth/common/types/token.type";
 import { LoginOutput } from "./login.output";
 
 describe("LoginUseCase", () => {
