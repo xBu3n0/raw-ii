@@ -1,11 +1,12 @@
-import { LoginRequest } from "@auth/dtos/requests/login.request";
-import { LoginResponse, Tokens } from "@auth/dtos/responses/login.response";
 import { Inject, Injectable } from "@nestjs/common";
 import { UserDto } from "@/common/dtos/user.dto";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 import { Email } from "@/common/primitives/user/email.primitive";
+import { Tokens } from "@/services/auth/common/token.type";
+import { LoginInput } from "./login.input";
+import { LoginOutput } from "./login.output";
 
 @Injectable()
 export class LoginUseCase {
@@ -16,7 +17,7 @@ export class LoginUseCase {
         private readonly authJwtService: IAuthJwtService,
     ) {}
 
-    async execute(login: LoginRequest): Promise<LoginResponse> {
+    async execute(login: LoginInput): Promise<LoginOutput> {
         const userEntity = await this.authUserRepository.findByEmail(
             Email.create(login.email),
         );
@@ -31,7 +32,7 @@ export class LoginUseCase {
             throw new InvalidCredentialsException("Email e/ou senha invalidos");
         }
 
-        return new LoginResponse(
+        return new LoginOutput(
             new UserDto(userEntity),
             new Tokens(
                 this.authJwtService.sign(

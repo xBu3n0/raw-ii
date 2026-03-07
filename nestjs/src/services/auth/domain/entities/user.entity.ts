@@ -1,4 +1,4 @@
-import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
+import { RegisterRequest } from "@/services/auth/infrastructure/dtos/requests/register.request";
 import { Email } from "@/common/primitives/user/email.primitive";
 import { Username } from "@/common/primitives/user/username.primitive";
 import { Password } from "@/common/primitives/user/password.primitive";
@@ -37,7 +37,7 @@ export class UserEntity {
         );
     }
 
-    static fromCreateUserRequest(user: CreateUserRequest): UserEntity {
+    static fromCreateUserRequest(user: RegisterRequest): UserEntity {
         return new this(
             undefined,
             Username.create(user.username),

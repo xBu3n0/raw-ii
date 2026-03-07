@@ -1,9 +1,9 @@
-import { LoginUseCase } from "@auth/application/useCases/login.use-case";
-import { RegisterUseCase } from "@auth/application/useCases/register.use-case";
-import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
-import { LoginRequest } from "@auth/dtos/requests/login.request";
-import { CreateUserResponse } from "@auth/dtos/responses/create-user.response";
-import { LoginResponse, Tokens } from "@auth/dtos/responses/login.response";
+import { LoginUseCase } from "@auth/application/useCases/login/login.use-case";
+import { RegisterUseCase } from "@auth/application/useCases/register/register.use-case";
+import { RegisterRequest } from "@/services/auth/infrastructure/dtos/requests/register.request";
+import { LoginRequest } from "@auth/infrastructure/dtos/requests/login.request";
+import { RegisterResponse } from "@/services/auth/infrastructure/dtos/responses/register.response";
+import { LoginResponse } from "@auth/infrastructure/dtos/responses/login.response";
 import {
     Body,
     Controller,
@@ -18,6 +18,9 @@ import { UserDto } from "@/common/dtos/user.dto";
 import { Public } from "@/common/guards/auth/public.decorator";
 import { AuthService } from "@auth/application/services/auth.service";
 import { ApiBearerAuth } from "@nestjs/swagger";
+import { Tokens } from "@auth/common/token.type";
+import { RegisterInput } from "@auth/application/useCases/register/register.input";
+import { LoginInput } from "@auth/application/useCases/login/login.input";
 
 @Controller("auth")
 export class AuthController {
@@ -30,16 +33,26 @@ export class AuthController {
     @Public()
     @Post("register")
     async register(
-        @Body() createUserRequest: CreateUserRequest,
-    ): Promise<CreateUserResponse> {
-        return this.registerUseCase.execute(createUserRequest);
+        @Body() registerRequest: RegisterRequest,
+    ): Promise<RegisterResponse> {
+        return this.registerUseCase.execute(
+            new RegisterInput(
+                registerRequest.username,
+                registerRequest.email,
+                registerRequest.password,
+            ),
+        );
     }
 
     @Public()
     @Post("login")
     @HttpCode(HttpStatus.OK)
     async login(@Body() loginRequest: LoginRequest): Promise<LoginResponse> {
-        return this.loginUseCase.execute(loginRequest);
+        return LoginResponse.fromLoginOutput(
+            await this.loginUseCase.execute(
+                new LoginInput(loginRequest.email, loginRequest.password),
+            ),
+        );
     }
 
     @Post("logout")

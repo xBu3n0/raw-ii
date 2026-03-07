@@ -1,11 +1,11 @@
 import { UserEntity } from "@auth/domain/entities/user.entity";
 import { RegisterUseCase } from "./register.use-case";
 import { UserCreated } from "@auth/domain/events/user-created.event";
-import { CreateUserResponse } from "@auth/dtos/responses/create-user.response";
 import { EmailAlreadyUsedException } from "@auth/domain/exceptions/email-already-exists.exception";
 import { Email } from "@/common/primitives/user/email.primitive";
-import { CreateUserRequest } from "@auth/dtos/requests/create-user.request";
-import { IAuthUserRepository } from "../../domain/repositories/auth-user.repository";
+import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
+import { RegisterOutput } from "./register.output";
+import { RegisterInput } from "./register.input";
 
 describe("RegisterUseCase", () => {
     const userRef = UserEntity.fromPlain({
@@ -62,18 +62,18 @@ describe("RegisterUseCase", () => {
                 createRegisterUseCase();
             const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");
 
-            const newUser: CreateUserRequest = {
-                username: userRef.username.value,
-                email: Email.create(userRef.email.value + "c").value,
-                password: userRef.password.value,
-            };
+            const newUser = new RegisterInput(
+                userRef.username.value,
+                Email.create(userRef.email.value + "c").value,
+                userRef.password.value,
+            );
 
             // When
             const result = sut.execute(newUser);
 
             // Then
             await expect(result).resolves.toEqual(
-                CreateUserResponse.fromEntity(
+                RegisterOutput.fromEntity(
                     UserEntity.fromPlain({
                         id: 2,
                         ...newUser,
@@ -85,11 +85,11 @@ describe("RegisterUseCase", () => {
 
         it("Usuário com email já utilizado não consegue criar uma conta", async () => {
             // Given
-            const newUser: CreateUserRequest = {
-                username: userRef.username.value,
-                email: userRef.email.value,
-                password: userRef.password.value,
-            };
+            const newUser = new RegisterInput(
+                userRef.username.value,
+                userRef.email.value,
+                userRef.password.value,
+            );
             const { registerUseCase: sut, userCreatedEvent } =
                 createRegisterUseCase();
             const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");

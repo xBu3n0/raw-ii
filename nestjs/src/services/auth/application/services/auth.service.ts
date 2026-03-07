@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
-import { Tokens } from "@auth/dtos/responses/login.response";
 import { UserDto } from "@/common/dtos/user.dto";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
+import { Tokens } from "../../common/token.type";
 
 @Injectable()
 export class AuthService {

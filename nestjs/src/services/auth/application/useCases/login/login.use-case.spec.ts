@@ -2,11 +2,12 @@ import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.reposit
 import { UserDto } from "@/common/dtos/user.dto";
 import { UserEntity } from "@auth/domain/entities/user.entity";
 import { LoginUseCase } from "./login.use-case";
-import { LoginResponse, Tokens } from "@auth/dtos/responses/login.response";
 import { InvalidCredentialsException } from "@auth/domain/exceptions/invalid-credentials.exception";
 import { Password } from "@/common/primitives/user/password.primitive";
 import { Email } from "@/common/primitives/user/email.primitive";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
+import { Tokens } from "@/services/auth/common/token.type";
+import { LoginOutput } from "./login.output";
 
 describe("LoginUseCase", () => {
     const userRef = UserEntity.fromPlain({
@@ -65,7 +66,7 @@ describe("LoginUseCase", () => {
 
             // Then
             await expect(result).resolves.toEqual(
-                new LoginResponse(
+                new LoginOutput(
                     new UserDto(userRef),
                     new Tokens(RESULT_TOKEN, RESULT_TOKEN),
                 ),
