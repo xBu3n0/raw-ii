@@ -3,5 +3,5 @@ export enum EventEnum {
 }
 
 export abstract class Event {
-    abstract emit(...args: any[]): any;
+    readonly eventName: EventEnum;
 }

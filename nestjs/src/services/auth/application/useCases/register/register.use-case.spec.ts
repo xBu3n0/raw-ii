@@ -6,6 +6,7 @@ import { Email } from "@/common/primitives/user/email.primitive";
 import { IAuthUserRepository } from "@auth/domain/repositories/auth-user.repository";
 import { RegisterOutput } from "./register.output";
 import { RegisterInput } from "./register.input";
+import { EventEmitter } from "@/common/events/ievent.emitter";
 
 describe("RegisterUseCase", () => {
     const userRef = UserEntity.fromPlain({
@@ -18,7 +19,7 @@ describe("RegisterUseCase", () => {
     function createRegisterUseCase(): {
         registerUseCase: RegisterUseCase;
         authUserRepository: IAuthUserRepository;
-        userCreatedEvent: UserCreated;
+        eventEmitter: EventEmitter;
     } {
         jest.mock("@auth/domain/events/user-created.event");
 
@@ -42,25 +43,27 @@ describe("RegisterUseCase", () => {
                     },
                 ),
         } as unknown as IAuthUserRepository;
-        const userCreatedEvent = new UserCreated({ emit: jest.fn() });
+        const eventEmitter: EventEmitter = {
+            emit: jest.fn(),
+        } as unknown as EventEmitter;
         const registerUseCase = new RegisterUseCase(
             authUserRepository,
-            userCreatedEvent,
+            eventEmitter,
         );
 
         return {
             registerUseCase,
             authUserRepository,
-            userCreatedEvent,
+            eventEmitter,
         };
     }
 
     describe("register", () => {
         it("Usuário com email não utilizado consegue criar uma conta", async () => {
             // Given
-            const { registerUseCase: sut, userCreatedEvent } =
+            const { registerUseCase: sut, eventEmitter } =
                 createRegisterUseCase();
-            const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");
+            const userCreatedEmit = jest.spyOn(eventEmitter, "emit");
 
             const newUser = new RegisterInput(
                 userRef.username.value,
@@ -80,7 +83,9 @@ describe("RegisterUseCase", () => {
                     }),
                 ),
             );
-            expect(userCreatedEmit).toHaveBeenCalled();
+            expect(userCreatedEmit).toHaveBeenCalledWith(
+                new UserCreated(2, newUser.username, newUser.email),
+            );
         });
 
         it("Usuário com email já utilizado não consegue criar uma conta", async () => {
@@ -90,9 +95,9 @@ describe("RegisterUseCase", () => {
                 userRef.email.value,
                 userRef.password.value,
             );
-            const { registerUseCase: sut, userCreatedEvent } =
+            const { registerUseCase: sut, eventEmitter } =
                 createRegisterUseCase();
-            const userCreatedEmit = jest.spyOn(userCreatedEvent, "emit");
+            const userCreatedEmit = jest.spyOn(eventEmitter, "emit");
 
             // When
             const result = sut.execute(newUser);

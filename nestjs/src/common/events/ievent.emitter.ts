@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
-import { EventEnum } from "@/common/consts/event";
+import { Event } from "@/common/consts/event";
 
-export abstract class IEmmiterEvent {
-    abstract emit<T>(event: EventEnum, content: T): Observable<T>;
+export abstract class EventEmitter {
+    abstract emit<T>(...events: Event[]): Observable<T>[];
 }

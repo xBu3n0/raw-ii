@@ -1,16 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Event, EventEnum } from "@/common/consts/event";
-import { UserDto } from "@/common/dtos/user.dto";
-import { IEmmiterEvent } from "@/common/events/ievent.emitter";
 
 @Injectable()
 export class UserCreated implements Event {
-    constructor(
-        @Inject("RMQ_EVENT_EMMITER")
-        private readonly eventEmitter: IEmmiterEvent,
-    ) {}
+    readonly eventName = EventEnum.USER_CREATED;
 
-    emit(newUser: UserDto) {
-        this.eventEmitter.emit(EventEnum.USER_CREATED, newUser);
-    }
+    constructor(
+        readonly id: number,
+        readonly username: string,
+        readonly email: string,
+    ) {}
 }

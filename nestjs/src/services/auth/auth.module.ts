@@ -8,7 +8,6 @@ import { AuthUserRepository } from "./infrastructure/repositories/auth-user.repo
 import { AuthJwtModule } from "@/common/jwt/auth-jwt.module";
 import { AuthJwtService } from "@/common/jwt/auth-jwt.service";
 import { RmqApiModule } from "@/common/rmq/rmq-emitter.module";
-import { UserCreated } from "./domain/events/user-created.event";
 import { RmqEventEmitter } from "@/common/rmq/rmq-event.emitter";
 
 @Module({
@@ -32,7 +31,6 @@ import { RmqEventEmitter } from "@/common/rmq/rmq-event.emitter";
             provide: "RMQ_EVENT_EMMITER",
             useClass: RmqEventEmitter,
         },
-        UserCreated,
     ],
     controllers: [AuthController],
 })
