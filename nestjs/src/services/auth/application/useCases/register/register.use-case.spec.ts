@@ -21,8 +21,6 @@ describe("RegisterUseCase", () => {
         authUserRepository: IAuthUserRepository;
         eventEmitter: EventEmitter;
     } {
-        jest.mock("@auth/domain/events/user-created.event");
-
         const authUserRepository = {
             create: jest
                 .fn()
