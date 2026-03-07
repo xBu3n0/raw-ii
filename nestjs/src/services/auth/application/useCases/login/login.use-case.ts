@@ -15,7 +15,7 @@ export class LoginUseCase {
         private readonly authUserRepository: IAuthUserRepository,
         @Inject("AUTH_JWT_SERVICE")
         private readonly authJwtService: IAuthJwtService,
-    ) { }
+    ) {}
 
     async execute(login: LoginInput): Promise<LoginOutput> {
         const userEntity = await this.authUserRepository.findByEmail(

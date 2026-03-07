@@ -28,18 +28,20 @@ export class AuthController {
         private readonly registerUseCase: RegisterUseCase,
         private readonly loginUseCase: LoginUseCase,
         private readonly authService: AuthService,
-    ) { }
+    ) {}
 
     @Public()
     @Post("register")
     async register(
         @Body() registerRequest: RegisterRequest,
     ): Promise<RegisterResponse> {
-        return this.registerUseCase.execute(
-            new RegisterInput(
-                registerRequest.username,
-                registerRequest.email,
-                registerRequest.password,
+        return RegisterResponse.fromRegisterOutput(
+            await this.registerUseCase.execute(
+                new RegisterInput(
+                    registerRequest.username,
+                    registerRequest.email,
+                    registerRequest.password,
+                ),
             ),
         );
     }
@@ -58,7 +60,7 @@ export class AuthController {
     @Post("logout")
     @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
-    async logout(): Promise<void> { }
+    async logout(): Promise<void> {}
 
     @Post("refresh")
     @ApiBearerAuth()

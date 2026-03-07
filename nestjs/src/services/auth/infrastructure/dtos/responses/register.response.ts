@@ -1,5 +1,4 @@
-import { InvalidDomainException } from "@/common/exceptions/invalid-domain.exception";
-import { UserEntity } from "@auth/domain/entities/user.entity";
+import { RegisterOutput } from "@/services/auth/application/useCases/register/register.output";
 
 export class RegisterResponse {
     private constructor(
@@ -8,17 +7,11 @@ export class RegisterResponse {
         readonly email: string,
     ) {}
 
-    static fromEntity(userEntity: UserEntity) {
-        if (userEntity.id?.value === undefined) {
-            throw new InvalidDomainException(
-                "O Id do usuário precisa existir para criar a resposta",
-            );
-        }
-
+    static fromRegisterOutput(registerOutput: RegisterOutput) {
         return new this(
-            userEntity.id.value,
-            userEntity.username.value,
-            userEntity.email.value,
+            registerOutput.id,
+            registerOutput.username,
+            registerOutput.email,
         );
     }
 }

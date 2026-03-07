@@ -11,7 +11,7 @@ export class AuthService {
         private readonly authUserRepository: IAuthUserRepository,
         @Inject("AUTH_JWT_SERVICE")
         private readonly authJwtService: IAuthJwtService,
-    ) { }
+    ) {}
 
     refreshTokens(user: UserDto): Tokens {
         return new Tokens(

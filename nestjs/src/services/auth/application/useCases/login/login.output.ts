@@ -5,5 +5,5 @@ export class LoginOutput {
     constructor(
         readonly user: UserDto,
         readonly tokens: Tokens,
-    ) { }
+    ) {}
 }
