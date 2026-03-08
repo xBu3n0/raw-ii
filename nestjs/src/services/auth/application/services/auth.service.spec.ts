@@ -5,7 +5,7 @@ import { UserEntity } from "@auth/domain/entities/user.entity";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 
 describe("AuthService", () => {
-    const userRef = UserEntity.fromPlain({
+    const userRef = UserEntity.create({
         id: 1,
         username: "username_test",
         email: "email@teste.com",

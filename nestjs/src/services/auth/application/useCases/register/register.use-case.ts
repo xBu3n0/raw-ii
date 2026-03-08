@@ -17,7 +17,7 @@ export class RegisterUseCase {
     ) {}
 
     async execute(register: RegisterInput): Promise<RegisterOutput> {
-        const newUser = UserEntity.fromPlain({
+        const newUser = UserEntity.fromModel({
             ...register,
             id: undefined,
         });

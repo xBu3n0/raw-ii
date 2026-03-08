@@ -9,11 +9,12 @@ import { RegisterInput } from "./register.input";
 import { EventEmitter } from "@/common/events/ievent.emitter";
 
 describe("RegisterUseCase", () => {
-    const userRef = UserEntity.fromPlain({
+    const plainPassword = "password123";
+    const userRef = UserEntity.fromModel({
         id: 1,
         username: "username_test",
         email: "email@teste.com",
-        password: "password123",
+        password: plainPassword,
     });
 
     function createRegisterUseCase(): {
@@ -31,7 +32,7 @@ describe("RegisterUseCase", () => {
                         }
 
                         return Promise.resolve(
-                            UserEntity.fromPlain({
+                            UserEntity.fromModel({
                                 id: 2,
                                 username: newUser.username.value,
                                 email: newUser.email.value,
@@ -66,7 +67,7 @@ describe("RegisterUseCase", () => {
             const newUser = new RegisterInput(
                 userRef.username.value,
                 Email.create(userRef.email.value + "c").value,
-                userRef.password.value,
+                plainPassword,
             );
 
             // When
@@ -75,7 +76,7 @@ describe("RegisterUseCase", () => {
             // Then
             await expect(result).resolves.toEqual(
                 RegisterOutput.fromEntity(
-                    UserEntity.fromPlain({
+                    UserEntity.fromModel({
                         id: 2,
                         ...newUser,
                     }),

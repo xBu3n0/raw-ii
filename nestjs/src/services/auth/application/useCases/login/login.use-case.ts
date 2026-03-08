@@ -7,6 +7,7 @@ import { Email } from "@/common/primitives/user/email.primitive";
 import { Tokens } from "@/services/auth/common/types/token.type";
 import { LoginInput } from "./login.input";
 import { LoginOutput } from "./login.output";
+import { Password } from "@/common/primitives/user/password.primitive";
 
 @Injectable()
 export class LoginUseCase {
@@ -24,10 +25,7 @@ export class LoginUseCase {
 
         if (
             !userEntity ||
-            !(await this.authJwtService.verifyPassword(
-                userEntity.password.value,
-                login.password,
-            ))
+            !(await userEntity.password.verify(Password.create(login.password)))
         ) {
             throw new InvalidCredentialsException("Email e/ou senha invalidos");
         }

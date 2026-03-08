@@ -8,11 +8,6 @@ export abstract class IAuthJwtService {
         options?: { expiresIn?: string | number },
     ): string;
 
-    abstract verifyPassword(
-        password: string,
-        plainPassword: string,
-    ): Promise<boolean>;
-
     abstract isTokenSign(token: string): Promise<boolean>;
 
     abstract decode(token: string): Promise<UserDto>;

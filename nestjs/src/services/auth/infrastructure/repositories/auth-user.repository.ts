@@ -13,14 +13,14 @@ export class AuthUserRepository implements IAuthUserRepository {
             where: { email: email.value },
         });
 
-        return authUser ? UserEntity.fromPlain(authUser) : null;
+        return authUser ? UserEntity.fromModel(authUser) : null;
     }
 
     async create(register: UserEntity): Promise<UserEntity> {
         const authUser = await this.prismaService.authUser.create({
-            data: register.fromMemento(),
+            data: register.toMemento(),
         });
 
-        return UserEntity.fromPlain(authUser);
+        return UserEntity.fromModel(authUser);
     }
 }

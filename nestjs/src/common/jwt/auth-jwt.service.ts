@@ -3,7 +3,6 @@ import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "@/common/dtos/user.dto";
 import { StringValue } from "ms";
 import { IAuthJwtService } from "./iauth-jwt.service";
-import { verify } from "@node-rs/argon2";
 
 @Injectable()
 export class AuthJwtService implements IAuthJwtService {
@@ -28,10 +27,6 @@ export class AuthJwtService implements IAuthJwtService {
         options?: { expiresIn?: StringValue | number },
     ): string {
         return this.jwtService.sign(Object.assign({}, payload), options);
-    }
-
-    verifyPassword(password: string, plainPassword: string): Promise<boolean> {
-        return verify(password, plainPassword);
     }
 
     async isTokenSign(token: string): Promise<boolean> {

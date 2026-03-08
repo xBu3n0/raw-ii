@@ -8,13 +8,15 @@ import { Email } from "@/common/primitives/user/email.primitive";
 import { IAuthJwtService } from "@/common/jwt/iauth-jwt.service";
 import { Tokens } from "@/services/auth/common/types/token.type";
 import { LoginOutput } from "./login.output";
+import { LoginInput } from "./login.input";
 
 describe("LoginUseCase", () => {
-    const userRef = UserEntity.fromPlain({
+    const plainPassword = "password123";
+    const userRef = UserEntity.create({
         id: 1,
         username: "username_test",
         email: "email@teste.com",
-        password: "password123",
+        password: plainPassword,
     });
     const RESULT_TOKEN = "valid-token";
 
@@ -37,7 +39,6 @@ describe("LoginUseCase", () => {
                 ),
         };
         const authJwtService = {
-            verifyPassword: jest.fn().mockImplementation((p1, p2) => p1 === p2),
             sign: jest.fn().mockReturnValue(RESULT_TOKEN),
         } as unknown as IAuthJwtService;
         const loginUseCase = new LoginUseCase(
@@ -55,10 +56,7 @@ describe("LoginUseCase", () => {
     describe("login", () => {
         it("Usuário com as credenciais corretas recebe os tokens para acesso", async () => {
             // Given
-            const login = {
-                email: userRef.email.value,
-                password: userRef.password.value,
-            };
+            const login = new LoginInput(userRef.email.value, plainPassword);
             const { loginUseCase: sut } = createLoginUseCase();
 
             // When
@@ -87,10 +85,7 @@ describe("LoginUseCase", () => {
             "Usuário com as credenciais inválidas não pode fazer login",
             async (email: Email, password: Password) => {
                 // Given
-                const login = {
-                    email: email.value,
-                    password: password.value,
-                };
+                const login = new LoginInput(email.value, password.value);
                 const { loginUseCase: sut } = createLoginUseCase();
 
                 // When
