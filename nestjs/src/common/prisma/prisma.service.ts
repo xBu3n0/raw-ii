@@ -4,10 +4,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-    constructor() {
+    constructor(databaseUrl: string) {
         super({
             adapter: new PrismaPg({
-                connectionString: process.env.DATABASE_URL as string,
+                connectionString: databaseUrl,
             }),
         });
     }
