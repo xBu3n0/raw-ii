@@ -9,8 +9,6 @@ export class RmqEventEmitter implements EventEmitter {
     constructor(@Inject("RMQ_EMITTER") private readonly client: ClientProxy) {}
 
     emit<T>(...events: Event[]): Observable<T>[] {
-        console.log(events);
-
         return events.map((event) => {
             const { eventName, ...content } = event;
 

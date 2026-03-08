@@ -4,7 +4,6 @@ import {
     ClientsModule,
     Transport,
 } from "@nestjs/microservices";
-import { RmqConfig } from "@/common/consts/rmq";
 import { RmqEventEmitter } from "./rmq-event.emitter";
 
 @Module({
@@ -15,8 +14,10 @@ import { RmqEventEmitter } from "./rmq-event.emitter";
                 useFactory: (): ClientProvider => ({
                     transport: Transport.RMQ,
                     options: {
-                        urls: RmqConfig.urls,
-                        queue: RmqConfig.queue,
+                        transport: Transport.RMQ,
+                        urls: [process.env.RMQ_URL ?? ""],
+                        exchange: "auth-exchange",
+                        queue: "auth",
                         queueOptions: {
                             durable: true,
                         },
